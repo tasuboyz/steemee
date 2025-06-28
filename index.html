@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-navbutton-color" content="#2196f3">
+    <meta name="color-scheme" content="light dark">
+    <meta name="mozilla:theme-color" content="#2196f3">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/assets/img/logo_tra.png">
+    <title>cur8.fun</title>    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components/markdown-formatter.css">
+    <script src="https://cdn.jsdelivr.net/npm/steemlogin@latest/dist/steemlogin.min.js"></script>
+    <script src="https://unpkg.com/steem-content-renderer@latest"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Handle 404 redirects on GitHub Pages
+        (function () {
+            // Environment detection
+            const environments = {
+                'github': {
+                    detect: () => {
+                        const allowedHostnames = ['github.io'];
+                        return allowedHostnames.includes(location.hostname);
+                    },
+                    getBasePath: () => {
+                        const pathParts = location.pathname.split('/');
+                        return pathParts.length >= 2 ? '/' + pathParts[1] : '';
+                    },
+                    handleRoutes: (basePath) => {
+                        const pathParts = location.pathname.split('/');
+
+                        // Map path patterns to handlers
+                        const routeHandlers = {
+                            'deeper': () => {
+                                // Has parts after repo name and no hash
+                                if (pathParts.length > 2 && !location.hash) {
+                                    const routePath = '/' + pathParts.slice(2).join('/');
+                                    location.replace(basePath + '/#' + routePath);
+                                }
+                            },
+                            'root': () => {
+                                // Repository root path
+                                if (pathParts.length === 2 && pathParts[1] === basePath.substring(1) && !location.hash) {
+                                    location.replace(basePath + '/#/');
+                                }
+                            }
+                        };
+
+                        // Execute all handlers (they will only redirect if conditions match)
+                        Object.values(routeHandlers).forEach(handler => handler());
+                    }
+                },
+                'local': {
+                    detect: () => true, // Default fallback
+                    getBasePath: () => '',
+                    handleRoutes: () => {
+                        if (location.pathname !== '/' &&
+                            location.pathname !== '/index.html' &&
+                            !location.hash) {
+
+                            location.replace('/#' + location.pathname);
+                        }
+                    }
+                }
+            };
+
+            // Determine environment and execute appropriate handler
+            const env = Object.values(environments).find(env => env.detect());
+            const basePath = env.getBasePath();
+
+            document.documentElement.style.setProperty('--base-path', JSON.stringify(basePath));
+
+            env.handleRoutes(basePath);
+        })();
+    </script>
+    
+    <!-- Social Media Sharing Preview Metadata -->
+    <meta property="og:title" content="cur8.fun" id="og-title" />
+    <meta property="og:description" content="Your Steem community social platform" id="og-desc" />
+    <meta property="og:image" content="https://cur8.fun/assets/img/logo_tra.png" id="og-image" />
+    <meta property="og:url" content="https://cur8.fun/" id="og-url" />
+    <meta property="og:type" content="website" id="og-type" />
+
+    <meta name="twitter:card" content="summary_large_image" id="twitter-card" />
+    <meta name="twitter:title" content="cur8.fun" id="twitter-title" />
+    <meta name="twitter:description" content="Your Steem community social platform" id="twitter-desc" />
+    <meta name="twitter:image" content="https://cur8.fun/assets/img/logo_tra.png" id="twitter-image" />
+    <!-- Server-side rendered meta elements will be generated here -->
+    <meta name="dynamic-meta-container" id="dynamic-meta-container" data-post-id="" data-author="" data-permlink="" />
+</head>
+
+<body>
+    <div id="app">
+
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <a href="/" class="logo">
+                        <img src="./assets/img/logo_tra.png" alt="cur8.fun" class="logo-img">
+                        <span class="logo-text">cur8.fun</span>
+                    </a>
+                </div>
+                <div class="nav-center">
+                    <!-- Search bar will be injected here by JS -->
+                </div>
+                <div class="nav-right">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+        </nav>
+
+        <aside class="side-nav">
+            <div class="menu-items">
+
+                <a href="/" class="menu-item active">
+                    <span class="material-icons icon">home</span>
+                    <span class="label">Home</span>
+                </a>
+                <a href="/new" class="menu-item">
+                    <span class="material-icons icon">new_releases</span>
+                    <span class="label">New</span>
+                </a>
+                <a href="/communities" class="menu-item">
+                    <span class="material-icons icon">groups</span>
+                    <span class="label">Communities</span>
+                </a>
+                <a href="/wallet" class="menu-item">
+                    <span class="material-icons icon">account_balance_wallet</span>
+                    <span class="label">Wallet</span>
+                </a>
+                <a href="/create" class="menu-item create-post-nav">
+                    <span class="material-icons icon">add_circle</span>
+                    <span class="label">Create Post</span>
+                </a>
+                <!-- Add Search button -->
+                <a href="/search" class="menu-item search-nav">
+                    <span class="material-icons icon">search</span>
+                    <span class="label">Search</span>
+                </a>
+                <a href="https://davvoz.github.io/steem-faucet-game/#/faucet" class="menu-item faucet-nav"
+                    target="_blank" rel="noopener noreferrer">
+                    <!--fas fa-faucet nav-icon-->
+                    <span class="icon"><i class="fas fa-faucet"></i></span>
+                    <span class="label">Faucet</span>
+                </a>
+                <button class="theme-toggle-btn menu-item" aria-label="Toggle theme" title="Toggle light/dark theme">
+                    <span class="material-icons">dark_mode</span>
+                </button>
+                <!--toggle button sidebar retract-->
+                <button class="retract-toggle-btn menu-item" aria-label="Toggle sidebar" title="Toggle sidebar"
+                    id="toggle-btn-retract">
+                    <span class="material-icons">chevron_left</span>
+                </button>
+
+            </div>
+        </aside>
+
+        <main id="main-content">
+            <!-- Content will be inserted here by the router -->
+        </main>
+
+
+
+        <nav id="bottom-navigation" class="bottom-navigation">
+            <!-- Will be populated by JS -->
+        </nav>
+    </div>
+
+    <!-- Add Markdown parser and HTML sanitizer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@5.1.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
+    <script type="module" src="index.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            // Only register service worker on secure origins (HTTPS or localhost) or allow HTTP for development
+            const isLocalhost = window.location.hostname === 'localhost' || 
+                                window.location.hostname === '127.0.0.1' ||
+                                window.location.hostname.startsWith('192.168.') ||  // Local network
+                                window.location.hostname.startsWith('10.') ||       // Local network
+                                window.location.hostname.endsWith('.local');        // Local network
+            
+            const isSecureContext = window.location.protocol === 'https:' || isLocalhost;
+            
+            if (isSecureContext) {
+                window.addEventListener('load', () => {
+                    // Use relative path to avoid protocol issues
+                    const swUrl = '/sw.js';
+                    navigator.serviceWorker.register(swUrl)
+                        .then(registration => {
+                            console.log('Service Worker registered with scope:', registration.scope);
+                        })
+                        .catch(error => {
+                            console.error('Service Worker registration failed:', error);
+                        });
+                });
+            } else {
+                console.log('Service Worker not registered: Not a secure context. Use HTTPS or localhost for PWA features.');
+            }
+        }
+    </script>
+</body>
+
+</html>

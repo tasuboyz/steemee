@@ -1,0 +1,17 @@
+setup-steem-social-network.bat
+steem-social-network-class-diagram.mermaid
+/test
+utils/desiderata
+utils/input
+utils/output
+assets/tests/input.txt
+assets/tests/output.txt
+assets/tests/target.txt
+/.well-known
+sito-vetrina-figo/index.html
+sito-vetrina-figo/logo_tra.png
+sito-vetrina-figo/style.css
+pwa-icon-generator.html
+services/token-test.js
+services/verify-token.js
+/.venv
